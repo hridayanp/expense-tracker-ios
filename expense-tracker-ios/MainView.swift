@@ -8,27 +8,29 @@
 import SwiftUI
 
 struct MainView: View {
-    @EnvironmentObject var router: AppRouter
+    
+    @StateObject var router = AppRouter()
     
     var body: some View {
-        BaseView(backgroundColor: AppColors.secondary) {
+        
+        NavigationView {
             VStack {
-                Spacer()
                 
-                Text("Spend Smarter")
-                    .foregroundStyle(AppColors.primary)
-                    .font(.system(size: 40, weight: .bold, design: .default))
-                
-                Text("Save More")
-                    .foregroundStyle(AppColors.primary)
-                    .font(.system(size: 40, weight: .bold, design: .default))
-                
-                CustomButton(title: "Get Started", type: .primary) {
-                    router.navigate(to: .mainTabs)
+                if let route = router.currentRoute {
+                    
+                    switch route {
+                        case .mainTabs:
+                            MainTabView()
+                            
+                        case .startingScreen:
+                            AuthView()
+                    }
+                } else {
+                    AuthView()
                 }
             }
-            .padding()
         }
+        .environmentObject(router)
     }
 }
 

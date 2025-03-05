@@ -15,18 +15,6 @@ struct HomeView: View {
         ExpensesModel(id: 2, title: "Salary", transactionDate: "Mar 1, 2025", amount: "+$2,500.00"),
         ExpensesModel(id: 3, title: "Netflix Subscription", transactionDate: "Feb 28, 2025", amount: "-$15.99"),
         ExpensesModel(id: 1, title: "Grocery Shopping", transactionDate: "Mar 2, 2025", amount: "-$120.50"),
-        ExpensesModel(id: 2, title: "Salary", transactionDate: "Mar 1, 2025", amount: "+$2,500.00"),
-        ExpensesModel(id: 3, title: "Netflix Subscription", transactionDate: "Feb 28, 2025", amount: "-$15.99"),
-        ExpensesModel(id: 1, title: "Grocery Shopping", transactionDate: "Mar 2, 2025", amount: "-$120.50"),
-        ExpensesModel(id: 2, title: "Salary", transactionDate: "Mar 1, 2025", amount: "+$2,500.00"),
-        ExpensesModel(id: 3, title: "Netflix Subscription", transactionDate: "Feb 28, 2025", amount: "-$15.99"),
-        ExpensesModel(id: 1, title: "Grocery Shopping", transactionDate: "Mar 2, 2025", amount: "-$120.50"),
-        ExpensesModel(id: 2, title: "Salary", transactionDate: "Mar 1, 2025", amount: "+$2,500.00"),
-        ExpensesModel(id: 3, title: "Netflix Subscription", transactionDate: "Feb 28, 2025", amount: "-$15.99"),
-        ExpensesModel(id: 1, title: "Grocery Shopping", transactionDate: "Mar 2, 2025", amount: "-$120.50"),
-        ExpensesModel(id: 2, title: "Salary", transactionDate: "Mar 1, 2025", amount: "+$2,500.00"),
-        ExpensesModel(id: 3, title: "Netflix Subscription", transactionDate: "Feb 28, 2025", amount: "-$15.99"),
-        ExpensesModel(id: 4, title: "Gym Membership", transactionDate: "Feb 25, 2025", amount: "-$45.00")
         
     ]
     
