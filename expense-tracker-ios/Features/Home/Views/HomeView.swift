@@ -73,7 +73,7 @@ struct HomeView: View {
                 
                 // Transaction History Section
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Transaction History")
+                    Text("Expenses History")
                         .font(.title2)
                         .bold()
                         .padding(.horizontal)
@@ -87,20 +87,24 @@ struct HomeView: View {
                             .multilineTextAlignment(.center)
                             .padding(.top, 20)
                     } else {
-                        ScrollView {
-                            VStack(spacing: 12) {
-                                ForEach(viewModel.expenses) { expense in
-                                    HorizontalCardView(transaction: expense)
-                                }
+                        List {
+                            ForEach(viewModel.expenses) { expense in
+                                HorizontalCardView(transaction: expense)
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
                             }
-                            .padding(.horizontal)
+                            .onDelete(perform: deleteExpense)
                         }
+                        .listStyle(.plain)
                     }
                 }
-                .frame(maxHeight: 400)
+                .frame(maxWidth: .infinity, minHeight: 350, maxHeight: .infinity)
+                .background(AppColors.secondary)
+                .cornerRadius(16)
                 .padding(.top, -120)
             }
         }
+        
         .background(AppColors.secondary)
         .onAppear {
             viewModel.fetchExpenses() // Fetch expenses on view appear
@@ -110,6 +114,14 @@ struct HomeView: View {
     // Helper function to calculate total expenses
     private func calculateTotalExpenses() -> Float {
         return viewModel.expenses.reduce(0) { $0 + ($1.amount) }
+    }
+    
+    // Delete Expense function
+    private func deleteExpense(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let expense = viewModel.expenses[index]
+            viewModel.deleteExpense(expense: expense)
+        }
     }
 }
 
