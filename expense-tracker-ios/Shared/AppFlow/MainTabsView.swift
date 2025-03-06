@@ -3,6 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     
     @EnvironmentObject var router: AppRouter
+    @State private var selectedTab: Int = 0 // Track current tab
     
     init() {
         let appearance = UITabBarAppearance()
@@ -19,68 +20,59 @@ struct MainTabView: View {
         ZStack(alignment: .bottom) {
             Color(AppColors.secondary)
                 .ignoresSafeArea()
-                .allowsHitTesting(false) // ❌ Disables touch interactions outside active elements
+                .allowsHitTesting(false)
             
             VStack(spacing: 0) {
-                TabView {
+                TabView(selection: $selectedTab) {
                     HomeView()
                         .tabItem {
-                            Image(systemName: "cloud.sun")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
+                            Image(systemName: "house.fill")
                         }
                         .tag(0)
                     
                     StatisticsView()
                         .tabItem {
                             Image(systemName: "chart.bar.xaxis.ascending")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
                         }
                         .tag(1)
                     
-                    Spacer()
+                    if selectedTab == 0 {
+                        Spacer()
+                    }
                     
                     HomeView()
                         .tabItem {
                             Image(systemName: "wallet.bifold")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
                         }
                         .tag(2)
                     
                     MenuView()
                         .tabItem {
                             Image(systemName: "person")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
                         }
                         .tag(3)
                 }
                 .accentColor(AppColors.primary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             
-            // Floating Plus Button
-            Button(action: {
-                print("CLICKED") // Prints to console on tap
-            }) {
-                Image("plus-icon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .foregroundColor(.white)
-                    .background(
-                        Circle()
-                            .fill(AppColors.primary)
-                            .shadow(radius: 4)
-                    )
+            // Show Plus Button only when on HomeView
+            if selectedTab == 0 {
+                Button(action: {
+                    router.navigate(to: .expensesView)
+                }) {
+                    Image("plus-icon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.white)
+                        .background(
+                            Circle()
+                                .fill(AppColors.primary)
+                                .shadow(radius: 4)
+                        )
+                }
+                .offset(y: -20)
             }
-            .offset(y: -20) 
         }
     }
 }

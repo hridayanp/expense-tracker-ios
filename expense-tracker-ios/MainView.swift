@@ -24,6 +24,9 @@ struct MainView: View {
                             
                         case .startingScreen:
                             AuthView()
+                        
+                        case .expensesView:
+                            ExpensesView()
                     }
                 } else {
                     AuthView()

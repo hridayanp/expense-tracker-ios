@@ -5,18 +5,11 @@
 //  Created by Hridayan Phukan on 04/03/25.
 //
 
-
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
-    
-    let transactions: [ExpensesModel] = [
-        ExpensesModel(id: 1, title: "Grocery Shopping", transactionDate: "Mar 2, 2025", amount: "-$120.50"),
-        ExpensesModel(id: 2, title: "Salary", transactionDate: "Mar 1, 2025", amount: "+$2,500.00"),
-        ExpensesModel(id: 3, title: "Netflix Subscription", transactionDate: "Feb 28, 2025", amount: "-$15.99"),
-        ExpensesModel(id: 1, title: "Grocery Shopping", transactionDate: "Mar 2, 2025", amount: "-$120.50"),
-        
-    ]
+    @StateObject private var viewModel = ExpensesViewModel()
     
     var body: some View {
         ParallaxScrollView(backgroundImage: "linear-bg-2") {
@@ -28,7 +21,7 @@ struct HomeView: View {
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.white)
                         
-                        Text("$5,430")
+                        Text("$\(calculateTotalExpenses(), specifier: "%.2f")")
                             .font(.system(size: 30, weight: .bold))
                             .foregroundColor(.white)
                     }
@@ -39,14 +32,13 @@ struct HomeView: View {
                                 Image(systemName: "arrow.up.circle")
                                     .font(.system(size: 18))
                                     .foregroundColor(.white)
-                                    .background(Color.clear)
                                 
                                 Text("Income")
                                     .font(.system(size: 18, weight: .medium))
                                     .foregroundColor(.white)
                             }
                             
-                            Text("$8,500")
+                            Text("$8,500") // Dummy Income (Replace if needed)
                                 .font(.system(size: 20, weight: .bold))
                                 .foregroundColor(.white)
                         }
@@ -58,14 +50,13 @@ struct HomeView: View {
                                 Image(systemName: "arrow.down.circle")
                                     .font(.system(size: 18))
                                     .foregroundColor(.white)
-                                    .background(Color.clear)
                                 
                                 Text("Expenses")
                                     .font(.system(size: 18, weight: .medium))
                                     .foregroundColor(.white)
                             }
                             
-                            Text("$3,070")
+                            Text("$\(calculateTotalExpenses(), specifier: "%.2f")")
                                 .font(.system(size: 20, weight: .bold))
                                 .foregroundColor(.white)
                         }
@@ -75,7 +66,6 @@ struct HomeView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 180)
                 .background(AppColors.primary)
-                
                 .cornerRadius(16)
                 .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: -8)
                 .padding(.horizontal, 16)
@@ -87,14 +77,24 @@ struct HomeView: View {
                         .font(.title2)
                         .bold()
                         .padding(.horizontal)
+                        .foregroundStyle(AppColors.primary)
                     
-                    ScrollView {
-                        VStack(spacing: 12) {
-                            ForEach(transactions) { transaction in
-                                HorizontalCardView(transaction: transaction)
+                    if viewModel.expenses.isEmpty {
+                        Text("No Expenses Added")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 20)
+                    } else {
+                        ScrollView {
+                            VStack(spacing: 12) {
+                                ForEach(viewModel.expenses) { expense in
+                                    HorizontalCardView(transaction: expense)
+                                }
                             }
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
                     }
                 }
                 .frame(maxHeight: 400)
@@ -102,7 +102,14 @@ struct HomeView: View {
             }
         }
         .background(AppColors.secondary)
-        
+        .onAppear {
+            viewModel.fetchExpenses() // Fetch expenses on view appear
+        }
+    }
+    
+    // Helper function to calculate total expenses
+    private func calculateTotalExpenses() -> Float {
+        return viewModel.expenses.reduce(0) { $0 + ($1.amount) }
     }
 }
 

@@ -8,25 +8,27 @@
 import SwiftUI
 
 struct HorizontalCardView: View {
-    let transaction: ExpensesModel
+    let transaction: ExpenseEntity // Change from ExpensesModel to ExpenseEntity
     
     var body: some View {
         HStack {
             // Leading Content (Title & Date)
             VStack(alignment: .leading, spacing: 4) {
-                Text(transaction.title)
+                Text(transaction.name ?? "Unknown Expense")
                     .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(AppColors.primary)
                 
-                Text(transaction.transactionDate)
+                Text(formattedDate(transaction.timestamp))
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(.gray)
+                    .foregroundColor(.black)
             }
             
             Spacer()
             
             // Trailing Content (Amount)
-            Text(transaction.amount)
+            Text("$\(transaction.amount, specifier: "%.2f")")
                 .font(.system(size: 18, weight: .bold))
+                .foregroundStyle(AppColors.primary)
         }
         .padding()
         .background(
@@ -34,5 +36,13 @@ struct HorizontalCardView: View {
         )
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+    
+    // Helper function to format date
+    private func formattedDate(_ date: Date?) -> String {
+        guard let date = date else { return "Unknown Date" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy" // Example: "Mar 2, 2025"
+        return formatter.string(from: date)
     }
 }
