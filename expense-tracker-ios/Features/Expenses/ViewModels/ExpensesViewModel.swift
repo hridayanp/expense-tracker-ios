@@ -21,10 +21,11 @@ class ExpensesViewModel: ObservableObject {
         }
     }
     
-    func addExpense(name: String, amount: Float, timestamp: Date) { // Accepts user-provided timestamp
+    func addExpense(name: String, amount: Float, timestamp: Date, category: String) { // Accepts user-provided timestamp
         let newExpense = ExpenseEntity(context: viewContext)
         newExpense.name = name
         newExpense.amount = amount
+        newExpense.category = category
         newExpense.timestamp = timestamp // Uses the provided timestamp
         
         saveContext()

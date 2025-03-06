@@ -17,6 +17,7 @@ struct PersistenceController {
             let newExpense = ExpenseEntity(context: viewContext)
             newExpense.name = "Expense \(i)"
             newExpense.amount = Float.random(in: 10...500)
+            newExpense.category = "Groceries"
             newExpense.timestamp = Date()
         }
         do {

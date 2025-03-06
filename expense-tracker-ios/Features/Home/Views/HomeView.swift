@@ -19,46 +19,46 @@ struct HomeView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Total Expenses")
                             .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.secondary)
                         
                         Text("$\(calculateTotalExpenses(), specifier: "%.2f")")
                             .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColors.secondary)
                     }
                     
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
                             HStack(spacing: 4) {
-                                Image(systemName: "arrow.up.circle")
+                                Image(systemName: "arrow.down.circle")
                                     .font(.system(size: 18))
-                                    .foregroundColor(.white)
+                                    .foregroundColor(AppColors.secondary)
                                 
                                 Text("Income")
                                     .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(.white)
+                                    .foregroundColor(AppColors.secondary)
                             }
                             
                             Text("$8,500") // Dummy Income (Replace if needed)
                                 .font(.system(size: 20, weight: .bold))
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColors.secondary)
                         }
                         
                         Spacer()
                         
                         VStack(alignment: .trailing, spacing: 2) {
                             HStack(spacing: 4) {
-                                Image(systemName: "arrow.down.circle")
+                                Image(systemName: "arrow.up.circle")
                                     .font(.system(size: 18))
-                                    .foregroundColor(.white)
+                                    .foregroundColor(AppColors.secondary)
                                 
                                 Text("Expenses")
                                     .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(.white)
+                                    .foregroundColor(AppColors.secondary)
                             }
                             
                             Text("$\(calculateTotalExpenses(), specifier: "%.2f")")
                                 .font(.system(size: 20, weight: .bold))
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColors.secondary)
                         }
                     }
                 }
