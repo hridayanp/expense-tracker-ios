@@ -9,7 +9,34 @@ import SwiftUI
 
 struct IncomeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            AppColors.secondary.ignoresSafeArea(.all)
+            
+            VStack {
+                Spacer()
+                
+                VStack(spacing: 10) {
+                    VStack {
+                        Text("Hello, World!")
+                    }
+                    
+                    
+                }
+                .padding()
+                .frame(height: 500)
+                .background(Color.white)
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(AppColors.primary, lineWidth: 2)
+                )
+                .padding(.horizontal, 24)
+                
+                Spacer()
+            }
+            
+            
+        }
     }
 }
 

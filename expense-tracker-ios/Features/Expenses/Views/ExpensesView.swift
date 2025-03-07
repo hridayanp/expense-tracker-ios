@@ -2,7 +2,9 @@ import SwiftUI
 
 struct ExpensesView: View {
     @StateObject private var viewModel = ExpensesViewModel()
-    @EnvironmentObject var router: AppRouter // For navigation
+    @StateObject private var categoryViewModel = CategoryViewModel(context: PersistenceController.shared.container.viewContext)
+    
+    @EnvironmentObject var router: AppRouter
     
     @State private var name: String = ""
     @State private var amount: String = ""
@@ -10,15 +12,6 @@ struct ExpensesView: View {
     @State private var selectedDate = Date()
     @State private var showAlert = false
     @State private var showCategorySheet = false
-    
-    // Dynamic category list
-    private let categories: [(name: String, emoji: String)] = [
-        ("Food", "🍔"),
-        ("Pets", "🐶"),
-        ("Transport", "🚗"),
-        ("Household", "🏠"),
-        ("Apparel", "👕")
-    ]
     
     var body: some View {
         ZStack {
@@ -125,7 +118,11 @@ struct ExpensesView: View {
             }
         }
         .sheet(isPresented: $showCategorySheet) {
-            CategorySelectionSheetView(selectedCategory: $selectedCategory, showSheet: $showCategorySheet, categories: categories)
+            CategorySelectionSheetView(
+                selectedCategory: $selectedCategory,
+                showSheet: $showCategorySheet,
+                viewModel: categoryViewModel
+            )
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Success"), message: Text("Expense added successfully!"), dismissButton: .default(Text("OK")) {
