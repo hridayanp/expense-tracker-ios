@@ -16,6 +16,7 @@ class CategoryViewModel: ObservableObject {
     init(context: NSManagedObjectContext) {
         self.context = context
         fetchCategories()
+        addDefaultCategoriesIfNeeded() // Ensure default categories exist
     }
     
     func fetchCategories() {
@@ -55,6 +56,33 @@ class CategoryViewModel: ObservableObject {
     // Extracts the first emoji from a string
     private func extractEmoji(from text: String) -> String {
         return text.first(where: { $0.isEmoji }).map(String.init) ?? ""
+    }
+    
+    private func addDefaultCategoriesIfNeeded() {
+        let request: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        do {
+            let existingCategories = try context.fetch(request)
+            if existingCategories.isEmpty {
+                let defaultCategories: [(name: String, emoji: String)] = [
+                    ("Food", "🍔"),
+                    ("Pets", "🐶"),
+                    ("Transport", "🚗"),
+                    ("Household", "🏠"),
+                    ("Apparel", "👕")
+                ]
+                
+                for category in defaultCategories {
+                    let newCategory = CategoryEntity(context: context)
+                    newCategory.name = category.name
+                    newCategory.emoji = category.emoji
+                }
+                
+                saveContext()
+                fetchCategories() // Refresh UI
+            }
+        } catch {
+            print("Failed to check existing categories: \(error)")
+        }
     }
 }
 
